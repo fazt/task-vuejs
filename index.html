@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style>
+      .app-form input{
+        border-radius: 0;
+      }
+      .taskDone {
+        text-decoration: line-through;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div id="taskApp" class="col-sm-8 col-sm-offset-2">
+        <h1>Todo App</h1>
+
+        <!-- form -->
+        <div class="panel panel-default">
+          <h2 class="text-center">Add A new Task</h2>
+          <form v-on:submit="addTask" class="app-form">
+              <input type="text" class="form-control" v-model="tasks.title">
+              <input type="submit" value="Add" class="btn btn-block btn-primary">
+          </form>
+        </div>
+
+        <!-- table -->
+        <table class="table">
+          <thead>
+            <tr>
+              <th>CheckMark Done</th>
+              <th>Task Name</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="task in tasks">
+              <td>
+                <input type="checkbox" v-model="task.done">
+              </td>
+              <td>
+                <span :class="{taskDone: task.done}">
+                  {{ task.title }}
+                </span>
+              </td>
+              <td>
+                <button
+                  v-on:click="deleteTask(task)"
+                  class="btn btn-block btn-danger">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/vue"></script>
+    <script type="text/javascript">
+      var taskApp = new Vue({
+        el: '#taskApp',
+        data: {
+          tasks: [
+            {
+              title: 'task1',
+              done: true
+            },
+            {
+              title: 'task2',
+              done: false
+            },
+            {
+              title: 'task3',
+              done: false
+            },
+            {
+              title: 'task4',
+              done: false
+            }
+          ]
+        },
+        methods: {
+          addTask: function (e) {
+            e.preventDefault();
+            this.tasks.push({
+              title: this.tasks.title,
+              done: false
+            });
+          this.tasks.title = '';
+          },
+          deleteTask: function (task) {
+            this.tasks.splice(
+              this.tasks.indexOf(task),
+              1
+            )
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
